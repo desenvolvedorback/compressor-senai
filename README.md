@@ -3,7 +3,7 @@
 Este documento apresenta a arquitetura detalhada, a modelagem de banco de dados e a estrutura de diretórios para um sistema Full-Stack em JavaScript/Node.js dedicado ao monitoramento em tempo real de compressores industriais. O sistema cobre mecânica (vibração), tempo de trabalho, gestão de sensores e automação de manutenção preventiva/preditiva.
 
 
-'⚠️ Aviso Importante: Este é um projeto proprietário e educacional. Todos os direitos são reservados. Não é permitida a cópia ou utilização em outros sistemas sem um acordo formal escrito com os autores. Veja o arquivo LICENSE para mais detalhes.'
+⚠️ Aviso Importante: Este é um projeto proprietário e educacional. Todos os direitos são reservados. Não é permitida a cópia ou utilização em outros sistemas sem um acordo formal escrito com os autores. Veja o arquivo LICENSE para mais detalhes.
 
 ## 1. Visão Geral da Arquitetura
 
