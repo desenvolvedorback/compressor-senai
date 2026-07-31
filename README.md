@@ -12,6 +12,7 @@ O sistema é dividido em três camadas principais, utilizando uma arquitetura or
 1. **Banco de Dados (SQL):** Armazenamento relacional para configurações de ativos, planos de manutenção, logs históricos de trabalho e leituras de sensores condensadas.
 2. **Back-end (Node.js):** API RESTful para operações CRUD e gerenciamento de regras de negócios, combinada com um servidor WebSocket (Socket.io) para a ingestão e distribuição de telemetria em tempo real.
 3. **Front-end (JavaScript modern/React ou Vue):** Painel operacional (Dashboard) com gráficos de linha do tempo e indicadores de status em tempo real.
+4. **API - PROTOCOLOS:** A API deve ser criptografada de forma que cada rota seja única de forma que eliminamos o scan na tentativa de abrir o painel administrativo. O sistema também deve conter proteções contra brute force se organizando com rate-limit por IP.
 
 [ Sensores / IoT (MQTT) ]
 │
