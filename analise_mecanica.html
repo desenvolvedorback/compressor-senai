@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SENAI-SP | Análise Mecânica</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      background-color: #f2f4f7;
+      color: #111827;
+      min-height: 100vh;
+      display: flex;
+      padding: 24px;
+      gap: 28px;
+    }
+
+    /* Navegação Lateral */
+    .sidebar-wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 220px;
+      min-width: 220px;
+    }
+
+    .sidebar-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 24px 16px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+
+    .brand-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 2px;
+    }
+
+    .brand-subtitle {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-bottom: 32px;
+    }
+
+    .nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .nav-item {
+      display: block;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #4b5563;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .nav-item.active {
+      background-color: #fde8e8;
+      color: #e53e3e;
+      font-weight: 600;
+    }
+
+    .nav-item:hover:not(.active) {
+      background-color: #f9fafb;
+      color: #111827;
+    }
+
+    .btn-logout {
+      background-color: #fde8e8;
+      color: #e53e3e;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      text-align: left;
+      transition: background-color 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-logout:hover {
+      background-color: #fbd5d5;
+    }
+
+    /* Conteúdo Principal */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .page-header {
+      margin-bottom: 4px;
+    }
+
+    .page-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 4px;
+    }
+
+    .page-subtitle {
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    .equipment-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 8px;
+    }
+
+    /* Layout da Grid Principal */
+    .analysis-grid {
+      display: grid;
+      grid-template-columns: 3fr 1.1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .charts-column {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Cards */
+    .card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+
+    .card-header-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .legend-box {
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 12px 24px;
+      min-width: 130px;
+      min-height: 60px;
+    }
+
+    .legend-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    /* Estilização dos Gráficos em SVG */
+    .chart-container {
+      width: 100%;
+      height: 180px;
+    }
+
+    .chart-container svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Grid de Estatísticas (Média, Máximo, Mínimo) */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .stat-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #4b5563;
+      margin-bottom: 8px;
+    }
+
+    .stat-value-container {
+      display: flex;
+      justify-content: center;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .stat-value {
+      font-size: 30px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .stat-unit {
+      font-size: 14px;
+      color: #9ca3af;
+      font-weight: 500;
+    }
+
+    /* Ficha Técnica */
+    .tech-card .card-title {
+      font-size: 18px;
+      margin-bottom: 24px;
+    }
+
+    .tech-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .tech-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+    }
+
+    .tech-label {
+      font-weight: 700;
+      color: #374151;
+      letter-spacing: 0.3px;
+    }
+
+    .tech-value {
+      font-weight: 700;
+      color: #111827;
+    }
+
+    @media (max-width: 1024px) {
+      body {
+        flex-direction: column;
+      }
+      .sidebar-wrapper {
+        width: 100%;
+      }
+      .analysis-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar-wrapper">
+    <div class="sidebar-card">
+      <h1 class="brand-title">SENAI-SP</h1>
+      <p class="brand-subtitle">Monitoramento Industrial</p>
+      
+      <nav>
+        <ul class="nav-list">
+          <li><a href=".\dashboard.html" class="nav-item">Dashboard</a></li>
+          <li><a href="#" class="nav-item active">Análise Mecânica</a></li>
+          <li><a href=".\manutencao.html" class="nav-item">Manutenção</a></li>
+          <li><a href=".\reset_sensor.html" class="nav-item">Reset Sensor</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <a href=".\login.html" class="btn-logout">Encerrar Sessão</a>
+  </aside>
+
+  <main class="main-content">
+    <header class="page-header">
+      <h2 class="page-title">Monitoramento do Compressor</h2>
+      <p class="page-subtitle">Acompanhamento de Análise Mecânica</p>
+    </header>
+
+    <h3 class="equipment-title">CMP-001</h3>
+
+    <div class="analysis-grid">
+      <div class="charts-column">
+        
+        <section class="card">
+          <div class="card-header-flex">
+            <h4 class="card-title">Vibração RMS - Tempo Real</h4>
+            <div class="legend-box">
+              <span class="legend-title">Legenda:</span>
+            </div>
+          </div>
+          <div class="chart-container">
+            <svg viewBox="0 0 600 160" preserveAspectRatio="none">
+              <line x1="40" y1="20" x2="40" y2="130" stroke="#111" stroke-width="1.5" />
+              <line x1="40" y1="130" x2="570" y2="130" stroke="#111" stroke-width="1.5" />
+              
+              <text x="35" y="15" font-size="12" font-weight="bold" fill="#111">y</text>
+              <text x="575" y="134" font-size="12" font-weight="bold" fill="#111">x</text>
+              <text x="18" y="125" font-size="9" font-weight="bold" fill="#111">RM/S</text>
+              <text x="45" y="145" font-size="10" font-weight="bold" fill="#111">Tempo</text>
+              
+              <polyline
+                fill="none"
+                stroke="#111"
+                stroke-width="1.5"
+                points="40,110 100,90 150,60 210,110 260,95 300,110 340,90 380,105 420,95 470,80 500,100 540,90 560,100"
+              />
+            </svg>
+          </div>
+        </section>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <p class="stat-label">Média RMS</p>
+            <div class="stat-value-container">
+              <span class="stat-value">2.1</span>
+              <span class="stat-unit">mm/s</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <p class="stat-label">Máximo RMS</p>
+            <div class="stat-value-container">
+              <span class="stat-value">2.4</span>
+              <span class="stat-unit">mm/s</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <p class="stat-label">Mínimo RMS</p>
+            <div class="stat-value-container">
+              <span class="stat-value">1.8</span>
+              <span class="stat-unit">mm/s</span>
+            </div>
+          </div>
+        </div>
+
+        <section class="card">
+          <div class="card-header-flex">
+            <h4 class="card-title">Espectro de Frequência</h4>
+            <div class="legend-box">
+              <span class="legend-title">Legenda:</span>
+            </div>
+          </div>
+          <div class="chart-container">
+            <svg viewBox="0 0 600 160" preserveAspectRatio="none">
+              <line x1="40" y1="20" x2="40" y2="130" stroke="#111" stroke-width="1.5" />
+              <line x1="40" y1="130" x2="570" y2="130" stroke="#111" stroke-width="1.5" />
+              
+              <text x="35" y="15" font-size="12" font-weight="bold" fill="#111">y</text>
+              <text x="575" y="134" font-size="12" font-weight="bold" fill="#111">x</text>
+              
+              <polyline
+                fill="none"
+                stroke="#111"
+                stroke-width="1.5"
+                points="40,122 80,118 120,112 160,95 190,118 240,102 280,118 320,98 360,110 400,118 440,108 480,88 510,108 540,95 560,110"
+              />
+            </svg>
+          </div>
+        </section>
+
+      </div>
+
+      <aside class="card tech-card">
+        <h4 class="card-title">Fichas Técnicas</h4>
+        <div class="tech-list">
+          <div class="tech-item">
+            <span class="tech-label">EQUIPAMENTO</span>
+            <span class="tech-value">CMP-001</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-label">MODELO</span>
+            <span class="tech-value">Atlas Copco GA 90</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-label">HORÍMETRO</span>
+            <span class="tech-value">14230 h</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main> 
+</body>
+</html>
